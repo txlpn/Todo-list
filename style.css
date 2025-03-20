@@ -1,0 +1,161 @@
+:root {
+    --default-corner-radius: 10px;
+    --default-font-size: 15px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: Inter, sans-serif;
+}
+
+body {
+    background-color: #edf6ff;
+}
+
+main {
+    padding: 23px 28px;
+}
+
+.header {
+    background-color: #3b82f6;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: left;
+    padding: 25px 35px;
+}
+
+/* Стиль для добавления задачи */
+
+.add-task {
+    border-radius: var(--default-corner-radius);
+    background: white;
+    padding: 20px;
+    width: fit-content;
+}
+
+.add-task h1 {
+    background-color: white;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.add-task .bottom-group {
+    background-color: white;
+    display: flex;
+    gap: 20px;
+}
+
+.add-task input[type=text] {
+    border-radius: var(--default-corner-radius);
+    outline: none;
+    padding: 10px;
+    font-size: var(--default-font-size);
+    color: #e4e1e1;
+    background-color: white;
+    border: 1px solid #e4e1e1;
+}
+
+.add-task input[type=text]::placeholder {
+    font-size: var(--default-font-size);
+    color: #e4e1e1;
+}
+
+.add-task button {
+    background-color: #2f80ed;
+    color: white;
+    border-radius: var(--default-corner-radius);
+    padding: 13px 40px;
+    font-size: var(--default-font-size);
+    font-weight: bold;
+    cursor: pointer;
+    border: 0;
+}
+
+.add-task button:hover {
+    background-color: #003470;
+}
+
+/* Для задачи */
+
+.task-input {
+    margin-top: 35px;
+    display: flex;
+    column-gap: 50px;
+}
+
+.task-input h3 {
+    padding: 10px 15px;
+    border-radius: var(--default-corner-radius);
+    margin-bottom: 20px;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.task-input li {
+    list-style-type: none;
+    font-size: var(--default-font-size);
+    padding: 20px;
+    background-color: white;
+    border-radius: var(--default-corner-radius);
+    margin: 10px 0;
+}
+
+.task-theme {
+    flex: 1 1 auto;
+}
+
+.column-backlog h3 {
+    background-color: #e3e3e3;
+    color: #8e9092;
+}
+
+.column-backlog li {
+    border-left: 5px solid #e3e3e3;
+}
+
+.column-progress h3 {
+    background-color: #d6e7ff;
+    color: #5c9bf2;
+}
+
+.column-progress li {
+    border-left: 5px solid #d6e7ff;
+}
+
+.column-complete h3 {
+    background-color: #d7f9e0;
+    color: #0fba44;
+}
+
+.column-complete li {
+    border-left: 5px solid #d7f9e0;
+}
+
+.column-trash h3 {
+    background-color: #fbe3e3;
+    color: #da8e8b;
+}
+
+.column-trash li {
+    border-left: 5px solid #fbe3e3;
+}
+
+/* Для кнопки очистить */
+
+.clear-button {
+    background-color: #c9666c;
+    color: white;
+    padding: 15px 0;
+    border: 0px;
+    border-radius: var(--default-corner-radius);
+    width: 100%;
+    font-weight: bold;
+    font-size: var(--default-font-size);
+}
+
+.clear-button:hover {
+    background-color: #b3464d;
+}
