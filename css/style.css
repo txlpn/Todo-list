@@ -7,27 +7,25 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
-    font-family: Inter, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #edf6ff;
+    background-color: #eef4fb;
 }
 
 main {
     padding: 23px 28px;
 }
 
-.header {
-    background-color: #3b82f6;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: left;
-    padding: 25px 35px;
+header {
+    background-color: #2f80ed;
 }
 
-/* Стиль для добавления задачи */
+header h1 {
+    color: white;
+    padding: 25px 35px;
+}
 
 .add-task {
     border-radius: var(--default-corner-radius);
@@ -37,13 +35,11 @@ main {
 }
 
 .add-task h1 {
-    background-color: white;
     font-size: 25px;
     margin-bottom: 10px;
 }
 
 .add-task .bottom-group {
-    background-color: white;
     display: flex;
     gap: 20px;
 }
@@ -75,75 +71,40 @@ main {
 }
 
 .add-task button:hover {
-    background-color: #003470;
+    background-color: #0056b3;
 }
 
-/* Для задачи */
-
-.task-input {
+.tasks-board-component {
     margin-top: 35px;
     display: flex;
     column-gap: 50px;
 }
 
-.task-input h3 {
+.display-tasks {
+    flex: 1 1 auto;
+}
+
+.display-tasks h3 {
     padding: 10px 15px;
     border-radius: var(--default-corner-radius);
+    background-color: #e3e3e3;
+    color: #68727b;
     margin-bottom: 20px;
     font-weight: 500;
     width: fit-content;
 }
 
-.task-input li {
+.display-tasks li {
     list-style-type: none;
+    font-weight: 500;
     font-size: var(--default-font-size);
     padding: 20px;
+    color: #000;
     background-color: white;
+    border-left: 6px solid #e3e3e3;
     border-radius: var(--default-corner-radius);
     margin: 10px 0;
 }
-
-.task-theme {
-    flex: 1 1 auto;
-}
-
-.column-backlog h3 {
-    background-color: #e3e3e3;
-    color: #8e9092;
-}
-
-.column-backlog li {
-    border-left: 5px solid #e3e3e3;
-}
-
-.column-progress h3 {
-    background-color: #d6e7ff;
-    color: #5c9bf2;
-}
-
-.column-progress li {
-    border-left: 5px solid #d6e7ff;
-}
-
-.column-complete h3 {
-    background-color: #d7f9e0;
-    color: #0fba44;
-}
-
-.column-complete li {
-    border-left: 5px solid #d7f9e0;
-}
-
-.column-trash h3 {
-    background-color: #fbe3e3;
-    color: #da8e8b;
-}
-
-.column-trash li {
-    border-left: 5px solid #fbe3e3;
-}
-
-/* Для кнопки очистить */
 
 .clear-button {
     background-color: #c9666c;
