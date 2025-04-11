@@ -74,7 +74,7 @@ header h1 {
     background-color: #0056b3;
 }
 
-.tasks-board-component {
+.desk-tasks {
     margin-top: 35px;
     display: flex;
     column-gap: 50px;
@@ -119,4 +119,39 @@ header h1 {
 
 .clear-button:hover {
     background-color: #b3464d;
+}
+.backlog h3 {
+    background-color: #e3e3e3;
+    color: #8e9092;
+}
+
+.backlog li {
+    border-left: 5px solid #e3e3e3;
+}
+
+.processing h3 {
+    background-color: #d6e7ff;
+    color: #5c9bf2;
+}
+
+.processing li {
+    border-left: 5px solid #d6e7ff;
+}
+
+.done h3 {
+    background-color: #d7f9e0;
+    color: #8acea0;
+}
+
+.done li {
+    border-left: 5px solid #d7f9e0;
+}
+
+.trash h3 {
+    background-color: #fbe3e3;
+    color: #da8e8b;
+}
+
+.trash li {
+    border-left: 5px solid #fbe3e3;
 }

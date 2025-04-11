@@ -1,10 +1,10 @@
-
 import BaseComponent from "../framework/base-component.js";
+import {StatusLabel, Status} from "../const.js";
 
-function createTasksListTemplate() {
+function createTasksListTemplate(label, status) {
     return (
-        `<div class="display-tasks">
-          <h3>Название блока</h3>
+        `<div class="display-tasks ${status}">
+          <h3>${label}</h3>
           <ul class="task-container-component">
           </ul>
         </div>`
@@ -12,7 +12,13 @@ function createTasksListTemplate() {
 }
 
 export default class TasksListComponent extends BaseComponent {
+    constructor(status) {
+        super();
+        this.status = status;
+    }
+
     getTemplate() {
-        return createTasksListTemplate();
+        const label = StatusLabel[this.status];
+        return createTasksListTemplate(label, this.status);
     }
 }

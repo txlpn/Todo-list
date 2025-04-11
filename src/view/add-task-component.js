@@ -1,6 +1,6 @@
 import BaseComponent from '../framework/base-component.js';
 
-function createAddNewTaskTemplate() {
+function createAddTaskTemplate() {
     return (
         `<form class=add-task>
             <h1>Новая задача</h1>
@@ -21,6 +21,6 @@ function createAddNewTaskTemplate() {
 
 export default class AddTaskComponent extends BaseComponent {
     getTemplate() {
-        return createAddNewTaskTemplate();
+        return createAddTaskTemplate();
     }
 }
