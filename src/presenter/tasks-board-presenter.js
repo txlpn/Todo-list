@@ -43,7 +43,7 @@ export default class TasksBoardPresenter {
             return;
         }
 
-        this.#tasksModel.addTask(taskTitle);
+        this.#tasksModel.createTask(taskTitle);
 
         document.querySelector('.add-task__input').value = '';
     }

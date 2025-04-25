@@ -13,7 +13,7 @@ export default class TasksModel {
         return this.#boardtasks.filter(f => f.status === status)[0];
     }
 
-    addTask(title) {
+    createTask(title) {
         const newTask = {
             id: generateID(),
             name: title
@@ -45,10 +45,6 @@ export default class TasksModel {
 
     addObserver(observer) {
         this.#observers.push(observer);
-    }
-
-    removeObserver(observer) {
-        this.#observers.filter(o => o !== observer);
     }
 
     _notifyObservers() {
