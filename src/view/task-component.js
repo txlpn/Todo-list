@@ -1,19 +1,17 @@
-import BaseComponent from "../framework/base-component.js";
+import AbstractComponent from "../framework/view/abstract-component.js";
 
-function createTaskTemplate(task) {
-    // const {title, status} = task;
+function createTaskComponentTemplate(task) {
     return (
-        //`<li>${title}</li>`
         `<li>${task}</li>`
     );
 }
 
-export default class TaskComponent extends BaseComponent {
+export default class TaskComponent extends AbstractComponent {
     constructor(task) {
         super();
         this.task = task;
     }
-    getTemplate() {
-        return createTaskTemplate(this.task);
+    get template() {
+        return createTaskComponentTemplate(this.task);
     }
 }

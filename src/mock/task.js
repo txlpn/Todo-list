@@ -1,20 +1,60 @@
 import { Status } from "../const.js";
+import { generateID } from "../utils.js";
 
 export const tasks = [
   {
     status: Status.BACKLOG,
-    tasks: ["Сходить в магаз", "Пойти погулять", "Устроиться на работу"]
+    tasks: []
   },
   {
     status: Status.PROCESSING,
-    tasks: ["Выучить JS", "Выучить React", "Создать приложение на Vue.js", ]
+    tasks: [
+        {
+        id: generateID(),
+        name: "Выучить JS"
+        },
+        {
+          id: generateID(),
+          name: "Выучить React"
+        },
+        {
+          id: generateID(),
+          name: "Создать приложение на Vue.js"
+        }
+    ]
   },
   {
     status: Status.DONE,
-    tasks: ["Разработать сервер на .NET (C#)", "Настроить маршрутизацию в React"]
+    tasks: [
+      {
+        id: generateID(),
+        name: "Разработать сервер на .NET (C#)"
+      },
+      {
+        id: generateID(),
+        name: "Настроить маршрутизацию в React"
+      }
+    ]
   },
   {
     status: Status.TRASH,
-    tasks: ["Оптимизировать код на Vue.js", "Удалить ненужные файлы", "Очистить базу данных", "Изучить архитектуру .NET Core"]
+    tasks: [
+      {
+        id: generateID(),
+        name: "Оптимизировать код на Vue.js"
+      },
+      {
+        id: generateID(),
+        name: "Удалить ненужные файлы"
+      },
+      {
+        id: generateID(),
+        name: "Очистить базу данных"
+      },
+      {
+        id: generateID(),
+        name: "Изучить архитектуру .NET Core"
+      }
+    ]
   }
 ]
