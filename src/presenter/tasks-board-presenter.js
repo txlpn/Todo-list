@@ -7,22 +7,32 @@ import {render} from '../framework/render.js';
 
 export default class TasksBoardPresenter {
     #tasksBoardComponent = new TaskBoardComponent();
-    #clearButtonComponent = null;
     #boardContainer = null;
     #boardTasks = [];
     #tasksModel = null;
+    #clearButtonComponent = null;
 
     constructor({boardContainer, tasksModel, clearButtonComponent}) {
         this.#boardContainer = boardContainer;
         this.#tasksModel = tasksModel;
 
         this.#clearButtonComponent = clearButtonComponent;
+
         this.#tasksModel.addObserver(this.#handleModelChange.bind(this));
     }
 
     init() {
         this.#boardTasks = [...this.#tasksModel.tasks];
         this.#renderBoard();
+    }
+
+    #handleModelChange() {
+        this.#clearBoard();
+        this.#renderBoard();
+    }
+
+    #handleTaskDrop(taskId, newStatus, dropTaskId) {
+        this.#tasksModel.updateTaskStatus(taskId, newStatus, dropTaskId)
     }
 
     #renderBoard() {
@@ -37,22 +47,40 @@ export default class TasksBoardPresenter {
 
         this.#renderClearButton();
     }
+
     createTask() {
-        const taskTitle = document.querySelector('.add-task__input').value.trim();
-        if (!taskTitle) {
-            return;
-        }
+        //const taskTitle = document.querySelector('.add-task__input').value.trim();
 
-        this.#tasksModel.createTask(taskTitle);
+        const titleElement = document.querySelector('.add-task__input')
+        const taskTitle = titleElement.value.trim()
+        titleElement.value = ''
 
-        document.querySelector('.add-task__input').value = '';
+        if (!taskTitle) return
+            this.#tasksModel.createTask(taskTitle)
     }
 
     clearTrash() {
         this.#tasksModel.removeTrashTask();
     }
+
     #renderTask(task, container) {
-        render(new TaskComponent(task.name), container.element.querySelector('.task-container-component'));
+        const taskComponent = new TaskComponent(task);
+        render(taskComponent, container.element.querySelector('.task-container-component'));
+
+        taskComponent.element.setAttribute('draggable', 'true');
+        taskComponent.element.addEventListener('dragstart', (event) => {
+            event.dataTransfer.setData('text/plain', task.id);
+        });
+        taskComponent.element.addEventListener('dragend', (event) => {
+            const x = event.clientX;
+            const y = event.clientY;
+            const elementBelow = document.elementFromPoint(x, y);
+            const newStatus = elementBelow.closest('.display-tasks')?.classList[1];
+            if (newStatus) {
+                const closestTask = elementBelow.closest('.task')
+                this.#handleTaskDrop(task.id, newStatus, closestTask?.dataset.id);
+            }
+        });
     }
 
     #renderTaskList(status, tasks) {
@@ -63,6 +91,19 @@ export default class TasksBoardPresenter {
         tasks.length === 0 ? this.#renderStubComponent(list) : tasks.forEach((task) => {
             this.#renderTask(task, list);
         });
+
+        // Добавляем обработчик для drop
+        list.element.addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+
+        // list.element.addEventListener('drop', (event) => {
+        //     event.preventDefault();
+        //     const taskId = event.dataTransfer.getData('text/plain');
+        //     const newStatus = status;
+        //     const dropTaskId = taskId;
+        //     this.#handleTaskDrop(taskId, newStatus, dropTaskId);
+        // });
     }
 
     #renderClearButton() {
@@ -75,16 +116,11 @@ export default class TasksBoardPresenter {
         }
     }
 
-    #renderStubComponent(container) {
-        render(new StubComponent(), container.element);
-    }
-
     #clearBoard() {
         this.#tasksBoardComponent.element.innerHTML = '';
     }
 
-    #handleModelChange() {
-        this.#clearBoard();
-        this.#renderBoard();
+    #renderStubComponent(container) {
+        render(new StubComponent(), container.element);
     }
 }

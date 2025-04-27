@@ -21,4 +21,24 @@ export default class TasksListComponent extends AbstractComponent {
         const label = StatusLabel[this.status];
         return createTasksListTemplate(label, this.status);
     }
+
+    #setDropHandler(onTaskDrop) {
+        const container = this.getElement()
+
+        container.addEventListener('dragover', event => {
+            event.preventDefault()
+
+            const closestTask = event.target.closest('.task')
+            if (!closestTask) return
+
+            this.dropTaskId = closestTask.dataset.id
+        })
+
+        container.addEventListener('drop', event => {
+            event.preventDefault()
+
+            const taskId = event.dataTransfer.getData('text/plain')
+            onTaskDrop(taskId, this.status, this.dropTaskId)
+        })
+    }
 }

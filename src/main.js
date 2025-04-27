@@ -26,11 +26,6 @@ const formAddTaskComponent = new AddTaskComponent({
     onClick: handleAddNewTaskButtonClick
 });
 
-render(new HeaderComponent(), bodyContainer, RenderPosition.BEFOREBEGIN);
-render(formAddTaskComponent, addTaskContainer);
-
-tasksBoardPresenter.init();
-
 function handleAddNewTaskButtonClick() {
     tasksBoardPresenter.createTask();
 }
@@ -38,3 +33,8 @@ function handleAddNewTaskButtonClick() {
 function handleClearTrashButtonClick() {
     tasksBoardPresenter.clearTrash();
 }
+
+render(new HeaderComponent(), bodyContainer, RenderPosition.BEFOREBEGIN);
+render(formAddTaskComponent, addTaskContainer);
+
+tasksBoardPresenter.init();

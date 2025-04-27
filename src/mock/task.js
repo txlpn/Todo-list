@@ -45,15 +45,19 @@ export const tasks = [
       },
       {
         id: generateID(),
-        name: "Удалить ненужные файлы"
+        name: "Удалить ненужные файлы",
+        status: Status.TRASH
       },
       {
         id: generateID(),
-        name: "Очистить базу данных"
+        name: "Очистить базу данных",
+        status: Status.TRASH
+
       },
       {
         id: generateID(),
-        name: "Изучить архитектуру .NET Core"
+        name: "Изучить архитектуру .NET Core",
+        status: Status.TRASH
       }
     ]
   }

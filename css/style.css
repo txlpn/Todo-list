@@ -19,7 +19,7 @@ main {
 }
 
 header {
-    background-color: #2f80ed;
+    background-color: #3765e6;
 }
 
 header h1 {
@@ -60,7 +60,7 @@ header h1 {
 }
 
 .add-task button {
-    background-color: #2f80ed;
+    background-color: #3762dd;
     color: white;
     border-radius: var(--default-corner-radius);
     padding: 13px 40px;
@@ -129,6 +129,11 @@ header h1 {
     border-left: 5px solid #e3e3e3;
 }
 
+.backlog li:hover {
+    background-color: #c4c7ca; /* Изменение фона при наведении */
+    border-color: #8e9092; /* Изменение цвета границы при наведении */
+}
+
 .processing h3 {
     background-color: #d6e7ff;
     color: #5c9bf2;
@@ -136,6 +141,11 @@ header h1 {
 
 .processing li {
     border-left: 5px solid #d6e7ff;
+}
+
+.processing li:hover {
+    background-color: #c9e1ff; /* Изменение фона при наведении */
+    border-color: #5c9bf2; /* Изменение цвета границы при наведении */
 }
 
 .done h3 {
@@ -147,6 +157,12 @@ header h1 {
     border-left: 5px solid #d7f9e0;
 }
 
+.done li:hover {
+    background-color: #ceffde; /* Изменение фона при наведении */
+    border-color: #8acea0; /* Изменение цвета границы при наведении */
+}
+
+
 .trash h3 {
     background-color: #fbe3e3;
     color: #da8e8b;
@@ -154,4 +170,35 @@ header h1 {
 
 .trash li {
     border-left: 5px solid #fbe3e3;
+}
+
+.trash li:hover {
+    background-color: #ffd0ce; /* Изменение фона при наведении */
+    border-color: #da8e8b; /* Изменение цвета границы при наведении */
+}
+
+/* Стили для компонента StubComponent */
+.stub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px; /* Высота области для перетаскивания */
+    border: 1px dashed #cccccc; /* Пунктирная граница */
+    border-radius: var(--default-corner-radius);
+    color: #999999; /* Цвет текста */
+    font-size: var(--default-font-size);
+    font-weight: 500;
+    margin-top: 20px; /* Отступ сверху */
+    cursor: grab; /* Курсор при наведении */
+    transition: background-color 0.3s, border-color 0.3s;
+    padding: 8px;
+}
+
+.stub:hover {
+    background-color: #e6e6e6; /* Изменение фона при наведении */
+    border-color: #a6a6a6; /* Изменение цвета границы при наведении */
+}
+
+.stub:active {
+    cursor: grabbing; /* Курсор при перетаскивании */
 }

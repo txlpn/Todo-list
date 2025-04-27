@@ -6,10 +6,10 @@ const Status = {
 };
 
 const StatusLabel = {
-    [Status.BACKLOG] : 'Бэклог',
-    [Status.PROCESSING]: 'В процессе',
-    [Status.DONE]: 'Готово',
-    [Status.TRASH]: 'Корзина',
+    [Status.BACKLOG] : '🖇️ Бэклог',
+    [Status.PROCESSING]: '⬆️ В процессе',
+    [Status.DONE]: '✅ Готово',
+    [Status.TRASH]: '🗑️ Корзина',
 };
 
 export {Status, StatusLabel};
