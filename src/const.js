@@ -1,15 +1,28 @@
 const Status = {
-    BACKLOG: 'backlog',
-    PROCESSING: 'processing',
-    DONE: 'done',
-    TRASH: 'trash',
-};
+  BACKLOG: `backlog`,
+  PROCESSING: `processing`,
+  DONE: `done`,
+  TRASH: `trash`
+}
 
 const StatusLabel = {
-    [Status.BACKLOG] : '🖇️ Бэклог',
-    [Status.PROCESSING]: '⬆️ В процессе',
-    [Status.DONE]: '✅ Готово',
-    [Status.TRASH]: '🗑️ Корзина',
-};
+  BACKLOG: `🖇️ Бэклог`,
+  PROCESSING: `⬆️ В процессе`,
+  DONE: `✅ Готово`,
+  TRASH: `🗑️ Корзина`
+}
 
-export {Status, StatusLabel};
+const UserAction = {
+  ADD_TASK: `ADD_TASK`,
+  UPDATE_TASK: `UPDATE_TASK`,
+  DELETE_TASK: `DELETE_TASK`
+}
+
+const UpdateTask = {
+  MAJOR: `MAJOR`,
+  MINOR: `MINOR`,
+  PATCH: `PATCH`,
+  INIT: `INIT`
+}
+
+export {Status, StatusLabel, UserAction, UpdateTask}

@@ -1,5 +1,3 @@
-function generateID() {
-    return self.crypto.randomUUID();
+export function generateID() {
+  return self.crypto.randomUUID()
 }
-
-export { generateID };

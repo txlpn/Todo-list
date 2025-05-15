@@ -1,29 +1,40 @@
-import AbstractComponent from '../framework/view/abstract-component.js';
+import AbstractComponent from './abstract-component.js'
 
 const RenderPosition = {
-    BEFOREBEGIN: 'beforebegin',
-    AFTERBEGIN: 'afterbegin',
-    BEFOREEND: 'beforeend',
-    AFTEREND: 'afterend',
-};
+  BEFOREBEGIN: 'beforebegin',
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend',
+  AFTEREND: 'afterend',
+}
 
 function createElement(template) {
-    const newElement = document.createElement('div');
-    newElement.innerHTML = template;
+  const newElement = document.createElement('div')
+  newElement.innerHTML = template
 
-    return newElement.firstElementChild;
+  return newElement.firstElementChild
 }
 
 function render(component, container, place = RenderPosition.BEFOREEND) {
-    if (!(component instanceof AbstractComponent)) {
-        throw new Error("render может отображать только компоненты а не абстрактный компонент");
-    }
+  if (!(component instanceof AbstractComponent)) {
+    throw new Error('Container element doesn\'t exist')
+  }
 
-    if (component === null) {
-        throw new Error("Компонент не должен быть пустым");
-    }
-
-    container.insertAdjacentElement(place, component.element);
+  container.insertAdjacentElement(place, component.getElement())
 }
 
-export { RenderPosition, createElement, render };
+function destroy(component, container) {
+  if (!(component instanceof AbstractComponent)) {
+    throw new Error('Component is not an instance of AbstractComponent')
+  }
+
+  const element = component.getElement()
+
+  if (element && container.contains(element)) {
+    container.removeChild(element)
+    component.removeElement()
+  } else {
+    console.warn('Element is not in the container or does not exist')
+  }
+}
+
+export {RenderPosition, createElement, render, destroy}

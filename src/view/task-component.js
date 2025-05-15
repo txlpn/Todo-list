@@ -1,31 +1,30 @@
-import AbstractComponent from "../framework/view/abstract-component.js";
-
-function createTaskComponentTemplate(task) {
-    return (
-        `<li class="task" data-id="${task.id}">${task.name}</li>`
-    );
-}
+import AbstractComponent from '../framework/abstract-component.js'
 
 export default class TaskComponent extends AbstractComponent {
-    constructor(task) {
-        super();
-        this.task = task;
-        this.#afterCreateElement();
-    }
 
-    get template() {
-        return createTaskComponentTemplate(this.task);
-    }
+  constructor(task) {
+    super()
+    this.task = task
+    this.#afterCreateElement()
+  }
 
-    #afterCreateElement() {
-        this.#makeTaskDraggable();
-    }
+  getTemplate() {
+    return (
+        `<li class="task" data-id="${this.task.id}">${this.task.title}</li>`
+    )
+  }
 
-    #makeTaskDraggable() {
-        this.element.setAttribute('draggable', 'true');
+  #afterCreateElement() {
+    this.#makeTaskDraggable()
+  }
 
-        this.element.addEventListener('dragstart', (event) => {
-            event.dataTransfer.setData('text/plain', this.task.id);
-        })
-    }
+  #makeTaskDraggable() {
+    const element = this.getElement()
+
+    element.setAttribute('draggable', true)
+
+    element.addEventListener('dragstart', event => {
+      event.dataTransfer.setData('text/plain', this.task.id)
+    })
+  }
 }

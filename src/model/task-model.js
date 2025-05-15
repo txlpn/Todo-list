@@ -1,100 +1,93 @@
-import {tasks} from "../mock/task.js";
-import {Status} from "../const.js";
-import {generateID} from "../utils.js";
+import {Status, UpdateTask as UpdateType, UserAction} from '../const.js'
+import {generateID} from '../utils.js'
+import Observable from '../framework/observable.js'
 
-export default class TasksModel {
-    #boardtasks = tasks;
-    #observers = [];
+export default class TasksModel extends Observable {
+  #tasksApiService = null
+  #boardTasks = []
 
-    get tasks() {
-        return this.#boardtasks;
+  constructor({tasksApiService}) {
+    super()
+    this.#tasksApiService = tasksApiService
+  }
+
+  async init() {
+    try {
+      this.#boardTasks = await this.#tasksApiService.tasks;
+    } catch(err) {
+      this.#boardTasks = []
+    }
+    this._notify(UpdateType.INIT)
+  }
+
+  async createTask(title) {
+    const newTask = {
+      title,
+      status: 'backlog',
+      id: generateID()
+    };
+    try {
+      const createdTask = await this.#tasksApiService.createTask(newTask)
+      this.#boardTasks.push(createdTask)
+      this._notify(UserAction.ADD_TASK, createdTask)
+      return createdTask
+    } catch (err) {
+      console.error('Ошибка при добавлении задачи на сервер:', err)
+      throw err
+    }
+  }
+
+  async updateTaskStatus(taskId, newStatus, dropTaskId) {
+
+    const task = this.#boardTasks.find(task => task.id === taskId)
+    const dropTask = this.#boardTasks.find(task => task.id === dropTaskId)
+
+    const taskIndex = this.#boardTasks.findIndex(task => task.id === taskId)
+    const dropTaskIndex = this.#boardTasks.findIndex(task => task.id === dropTaskId)
+
+    const prevStatus = task.status
+
+    if (task && dropTask && taskIndex !== -1 && dropTaskIndex !== -1) {
+      task.status = newStatus
+
+      this.#boardTasks.splice(taskIndex, 1)
+      const newIndex = dropTaskIndex > taskIndex ? dropTaskIndex - 1 : dropTaskIndex
+      this.#boardTasks.splice(newIndex, 0, task)
     }
 
-    getTasksByStatus(status) {
-        return this.#boardtasks.filter(f => f.status === status)[0];
+    if (!dropTask) {
+      task.status = newStatus
     }
 
-    getTaskById(taskId) {
-        for (const statusObj of this.#boardtasks) {
-            const task = statusObj.tasks.find(task => task.id === taskId);
-            if (task) {
-                return {
-                    status: statusObj,
-                    task: task
-                };
-            }
-        }
-        return null;
+    try {
+      const updatedTask = await this.#tasksApiService.updateTask(task)
+      Object.assign(task, updatedTask)
+      this._notify(UserAction.UPDATE_TASK, task)
+    } catch (error) {
+      console.error('Ошибка при обновлении статуса задачи на сервере:', error)
+      task.status = prevStatus
+      throw error
     }
+  }
 
-    createTask(title) {
-        const newTask = {
-            id: generateID(),
-            name: title
-        };
+  getTasksByStatus(status) {
+    return this.#boardTasks
+      .filter(it => Status[status] === it.status)
+  }
 
-        const backlogTask = this.getTasksByStatus(Status.BACKLOG);
-
-        if (!backlogTask) {
-            this.#boardtasks.unshift({
-                status: Status.BACKLOG,
-                tasks: [newTask]
-            });
-        } else {
-            backlogTask.tasks.push(newTask);
-        }
-
-        this._notifyObservers();
+  async clearTrash() {
+    try {
+      await Promise.all(
+          this.#boardTasks
+            .filter(it => it.status === Status.TRASH)
+            .map(it => this.#tasksApiService.deleteTask(it.id))
+      )
+      this.#boardTasks = this.#boardTasks
+        .filter(it => it.status !== Status.TRASH)
+      this._notify(UserAction.DELETE_TASK, {status: 'trash'})
+    } catch (error) {
+      console.error('Ошибка при удалении задач из корзины на сервере:', error)
+      throw error
     }
-
-    // updateTaskStatus(taskId, newStatus, dropTaskId) {
-    //     const task = this.#boardtasks.find(task => task.id === taskId)
-    //     const dropTask = this.#boardtasks.find(task => task.id === dropTaskId)
-    //
-    //     const taskIndex = this.#boardtasks.findIndex(task => task.id === taskId)
-    //     const dropTaskIndex = this.#boardtasks.findIndex(task => task.id === dropTaskId)
-    //
-    //     if (task && dropTask && taskIndex !== -1 && dropTaskIndex !== -1) {
-    //         task.status = newStatus
-    //
-    //         this.#boardtasks.splice(taskIndex, 1)
-    //         const newIndex = dropTaskIndex > taskIndex ? dropTaskIndex - 1 : dropTaskIndex
-    //         this.#boardtasks.splice(newIndex, 0, task)
-    //     }
-    //
-    //     this._notifyObservers()
-    // }
-
-    updateTaskStatus(taskId, newStatus, dropTaskId) {
-        const {status, task} = this.getTaskById(taskId);
-        if (task) {
-            status.tasks = status.tasks.filter(task => task.id !== taskId);
-
-            const newStatusObj = this.#boardtasks.find(statusObj => statusObj.status === newStatus);
-            const dropTaskIndex = newStatusObj.tasks.findIndex(task => task.id === dropTaskId);
-
-            console.log(dropTaskId)
-            console.log(newStatusObj.tasks.find(task => task.id === dropTaskId))
-
-            newStatusObj.tasks.splice(dropTaskIndex, 0, task)
-
-            this._notifyObservers();
-        }
-    }
-
-    removeTrashTask() {
-        const trashTasks = this.getTasksByStatus(Status.TRASH);
-
-        trashTasks.tasks.length = 0;
-
-        this._notifyObservers();
-    }
-
-    addObserver(observer) {
-        this.#observers.push(observer);
-    }
-
-    _notifyObservers() {
-        this.#observers.forEach(observer => observer());
-    }
+  }
 }
